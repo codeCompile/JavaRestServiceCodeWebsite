@@ -31,8 +31,8 @@ public class MyResource {
         List<Employee> employees = dao.getEmployees();
         //return Response.ok(employees, MediaType.APPLICATION_JSON_TYPE).build();
 
-        //return Response.ok().entity(new GenericEntity<List<Employee>>(employees) {}).build();
-        return "Employee count" + employees.size();
+        //Response.ok().entity(new GenericEntity<List<Employee>>(employees) {}).build();
+        return "Count is : " + employees.size();
     }
     
 /*
