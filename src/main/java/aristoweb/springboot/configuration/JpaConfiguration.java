@@ -1,6 +1,5 @@
 package aristoweb.springboot.configuration;
 
-
 import java.util.Properties;
  
 import javax.naming.NamingException;
@@ -67,17 +66,70 @@ public class JpaConfiguration {
                     .username(dataSourceProperties.getUsername())
                     .password(dataSourceProperties.getPassword())
                     .type(HikariDataSource.class)
-                    .build();*/
-            
+                    .build(); */
+              
+    String connectString = System.getenv("MYSQLCONNSTR_localdb");
+if(connectString != null)
+{
+    System.out.println("connectString: " + connectString);
+
+    String database = "";
+    String port = "";
+    String username = "";
+    String password = "";
+
+    String[] strArray = connectString.split(";");
+    for (int i = 0; i < strArray.length; i++) {
+        String[] paramArray = strArray[i].split("=");
+        switch (i) {
+        case 0:
+            database = paramArray[1];
+            continue;
+        case 1:
+            port = paramArray[1];
+            continue;
+        case 2:
+            username = paramArray[1];
+            continue;
+        case 3:
+            password = paramArray[1];
+            continue;
+        }
+    }
+
+    String url = "jdbc:mysql://" + port + "/" + database + "?"
+            + "user=" + username + "&password=" + password + "&useUnicode=true&characterEncoding=UTF8";
+
+    //response.getWriter().append("url:" + url);
+    System.out.println("URL: " + url);
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
-            dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-            dataSource.setUrl(dataSourceProperties.getUrl());
-            dataSource.setUsername(dataSourceProperties.getUsername());
-            dataSource.setPassword(dataSourceProperties.getPassword());
             
+            dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+//            dataSource.setUrl(dataSourceProperties.getUrl());
+//            dataSource.setUsername(dataSourceProperties.getUsername());
+//            dataSource.setPassword(dataSourceProperties.getPassword());
+            
+            dataSource.setUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
             //dataSource.setMaximumPoolSize(maxPoolSize);
+       
             return dataSource;
     }        
+else
+{
+	 DriverManagerDataSource dataSource = new DriverManagerDataSource();
+     
+     dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+     dataSource.setUrl(dataSourceProperties.getUrl());
+     dataSource.setUsername(dataSourceProperties.getUsername());
+     dataSource.setPassword(dataSourceProperties.getPassword());
+     
+     //dataSource.setMaximumPoolSize(maxPoolSize);
+     System.out.println(dataSourceProperties.getUrl());
+     return dataSource;
+}
+    }
             /*spring:
   profiles: local,default
 datasource:

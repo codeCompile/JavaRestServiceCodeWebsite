@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: aristoweb
+Bundle-SymbolicName: aristoweb
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: aristoweb.jar,
+  Java/jdk1.8.0_151/lib/tools.jar
+Export-Package: aristoweb.controller,
+ aristoweb.dao,
+ aristoweb.lib,
+ aristoweb.main,
+ aristoweb.model,
+ aristoweb.repository,
+ aristoweb.service,
+ aristoweb.springboot.configuration
